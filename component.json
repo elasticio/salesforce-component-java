@@ -1,0 +1,49 @@
+{
+    "title":"Salesforce Java Example",
+    "description" : "Customer relationship management (CRM) software & cloud computing from the leader in CRM solutions for businesses large & small.",
+    "docsUrl": "https://github.com/elasticio/salesforce-java",
+    "url" : "http://www.salesforce.com/",
+    "envVars": {
+        "SALESFORCE_KEY": {
+            "required": true,
+            "description": "Your Salesforce OAuth client key"
+        },
+        "SALESFORCE_SECRET": {
+            "required": true,
+            "description": "Your Salesforce OAuth client secret"
+        }
+    },
+    "credentials" : {
+        "fields":{
+            "prodEnv" : {
+                "label":"Environment",
+                "viewClass":"SelectView",
+                "required":true,
+                "model":{
+                    "test":"Sandbox",
+                    "login":"Production"
+                },
+                "prompt":"Select environment"
+            },
+            "oauth":{
+                "label":"Authentication",
+                "viewClass":"OAuthFieldView",
+                "required": true
+            }
+        },
+        "oauth2":{
+            "client_id":"{{SALESFORCE_KEY}}",
+            "client_secret":"{{SALESFORCE_SECRET}}",
+            "auth_uri":"https://{{prodEnv}}.salesforce.com/services/oauth2/authorize",
+            "token_uri":"https://{{prodEnv}}.salesforce.com/services/oauth2/token"
+        }
+    },
+    "triggers":{
+        "newAccount":{
+            "title":"New Account",
+            "main":"io.elastic.salesforce.triggers.GetAccounts",
+            "type":"polling",
+            "dynamicMetadata":true
+        }
+    }
+}
