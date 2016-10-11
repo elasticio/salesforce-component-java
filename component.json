@@ -43,7 +43,18 @@
             "title":"New Account",
             "main":"io.elastic.salesforce.triggers.GetAccounts",
             "type":"polling",
-            "dynamicMetadata":true
+            "metadata": {
+              "out": {
+                "type": "object",
+                "properties": {
+                  "greeting": {
+                    "type": "string",
+                    "required": true,
+                    "title": "Greeting"
+                  }
+                }
+              }
+            }
         }
     }
 }
