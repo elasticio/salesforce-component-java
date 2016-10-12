@@ -1,10 +1,32 @@
 {
-    "type": "object",
-    "properties": {
-        "greeting": {
-            "type": "string",
-            "required": true,
-            "title": "Greeting"
+  "type": "object",
+  "properties": {
+    "totalSize": {
+      "type": "number",
+      "required": true,
+      "title": "Total Size"
+    },
+    "records": {
+      "type": "array",
+      "required": true,
+      "title": "Records",
+      "properties": {
+        "Type": {
+          "type": "string",
+          "required": true,
+          "title": "Type"
+        },
+        "Id": {
+          "type": "string",
+          "required": true,
+          "title": "Id"
+        },
+        "Name": {
+          "type": "string",
+          "required": true,
+          "title": "Name"
         }
+      }
     }
+  }
 }
