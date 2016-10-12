@@ -5,6 +5,7 @@ import io.elastic.api.Component;
 import io.elastic.api.EventEmitter;
 import io.elastic.api.ExecutionParameters;
 import io.elastic.api.Message;
+import io.elastic.salesforce.RequestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,12 +29,18 @@ public class GetAccounts extends Component {
 
         logger.info(configuration.toString());
 
-        final JsonObject body = new JsonObject();
+        final String query = "SELECT id,name,annualRevenue FROM Account";
+
+        logger.info("About to query objects: {}", query);
+
+        final JsonObject body = RequestUtils.queryObjects(configuration, query);
 
         final Message response
                 = new Message.Builder().body(body).build();
 
         getEventEmitter().emitData(response);
+
+        logger.info("Finished execution");
 
     }
 }
