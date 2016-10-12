@@ -3,7 +3,6 @@ package io.elastic.salesforce;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import io.elastic.salesforce.triggers.GetAccounts;
 import org.apache.http.HttpEntity;
 import org.apache.http.StatusLine;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -21,8 +20,6 @@ import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 
 public class RequestUtils {
 
@@ -76,10 +73,6 @@ public class RequestUtils {
     }
 
     public static final String sendRequest(final HttpUriRequest request) {
-        //temporal fix until we migrate platform
-        System.setProperty("https.protocols", "TLSv1.1,TLSv1.2");
-
-        logger.info("Configured HTTPS protocols {}", System.getProperty("https.protocols"));
 
         final CloseableHttpClient httpClient = HttpClients.custom()
                 .setSSLSocketFactory(createSSLConnectionSocketFactory())
@@ -120,6 +113,10 @@ public class RequestUtils {
         }
     }
 
+    /**
+     * This method is a temporary fix until we migrate platform to JDK 1.8
+     * which is compatible with TLS 1.1 or higher by default.
+     */
     private static final SSLConnectionSocketFactory createSSLConnectionSocketFactory() {
         SSLContext sslContext = null;
         try {
