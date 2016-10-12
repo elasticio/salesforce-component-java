@@ -71,7 +71,10 @@ public class RequestUtils {
     }
 
     public static final String sendRequest(final HttpUriRequest request) {
+        //temporal fix until we migrate platform
         System.setProperty("https.protocols", "TLSv1.1,TLSv1.2");
+
+        logger.info("Configured HTTPS protocols {}", System.getProperty("https.protocols"));
 
         final CloseableHttpClient httpClient = HttpClients.createDefault();
 
