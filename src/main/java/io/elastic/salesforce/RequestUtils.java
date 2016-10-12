@@ -9,15 +9,20 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 
 public class RequestUtils {
 
@@ -76,7 +81,9 @@ public class RequestUtils {
 
         logger.info("Configured HTTPS protocols {}", System.getProperty("https.protocols"));
 
-        final CloseableHttpClient httpClient = HttpClients.createDefault();
+        final CloseableHttpClient httpClient = HttpClients.custom()
+                .setSSLSocketFactory(createSSLConnectionSocketFactory())
+                .build();
 
         try {
             final CloseableHttpResponse response = httpClient.execute(request);
@@ -111,6 +118,23 @@ public class RequestUtils {
                 e.printStackTrace();
             }
         }
+    }
+
+    private static final SSLConnectionSocketFactory createSSLConnectionSocketFactory() {
+        SSLContext sslContext = null;
+        try {
+            sslContext = SSLContexts.custom()
+                    .useTLS()
+                    .build();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return new SSLConnectionSocketFactory(
+                sslContext,
+                new String[]{"TLSv1.1", "TLSv1.2"},
+                null,
+                SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
     }
 
     private static final String getRequiredConfigurationParameter(final JsonObject configuration,
