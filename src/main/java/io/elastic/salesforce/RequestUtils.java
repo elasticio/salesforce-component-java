@@ -71,6 +71,7 @@ public class RequestUtils {
     }
 
     public static final String sendRequest(final HttpUriRequest request) {
+        System.setProperty("https.protocols", "TLSv1.1,TLSv1.2");
 
         final CloseableHttpClient httpClient = HttpClients.createDefault();
 
