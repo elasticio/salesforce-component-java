@@ -46,10 +46,16 @@ public class RequestUtils {
     public static final HttpGet createQueryRequest(final JsonObject configuration,
                                                    final String query) {
 
+        final JsonObject oauth = configuration.get(Constants.CONFIGURATION_OAUTH).getAsJsonObject();
+
+        if (oauth == null) {
+            throw new RuntimeException("Please authenticate with Salesforce");
+        }
+
         final String instanceUrl = getRequiredConfigurationParameter(
-                configuration, Constants.CONFIGURATION_INSTANCE_URL);
+                oauth, Constants.CONFIGURATION_INSTANCE_URL);
         final String accessToken = getRequiredConfigurationParameter(
-                configuration, Constants.CONFIGURATION_ACCESS_TOKEN);
+                oauth, Constants.CONFIGURATION_ACCESS_TOKEN);
 
         logger.info("Instance url: {}", instanceUrl);
 
@@ -103,7 +109,8 @@ public class RequestUtils {
         }
     }
 
-    private static final String getRequiredConfigurationParameter(final JsonObject configuration, final String name) {
+    private static final String getRequiredConfigurationParameter(final JsonObject configuration,
+                                                                  final String name) {
         final JsonElement value = configuration.get(name);
 
         if (value == null) {
