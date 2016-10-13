@@ -4,14 +4,16 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.*;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,30 +22,15 @@ import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
-public class RequestUtils {
+public class HttpClientUtils {
 
-    public static final Logger logger = LoggerFactory.getLogger(RequestUtils.class);
+    public static final Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
 
     private static final String API_BASE_PATH = "/services/data/v37.0/query";
 
-    public static final JsonObject queryObjects(final JsonObject configuration,
-                                                final String query) {
-
-        final HttpGet get = createQueryRequest(configuration, query);
-
-        final String content = RequestUtils.sendRequest(get);
-
-        System.err.println(content);
-
-        final JsonObject object = new JsonParser().parse(content).getAsJsonObject();
-
-        final String total = object.get("totalSize").getAsString();
-
-        logger.info("Retrieved {} objects", total);
-
-        return object;
-    }
 
     public static final HttpGet createQueryRequest(final JsonObject configuration,
                                                    final String query) {
@@ -56,8 +43,6 @@ public class RequestUtils {
 
         final String instanceUrl = getRequiredConfigurationParameter(
                 oauth, Constants.CONFIGURATION_INSTANCE_URL);
-        final String accessToken = getRequiredConfigurationParameter(
-                oauth, Constants.CONFIGURATION_ACCESS_TOKEN);
 
         logger.info("Instance url: {}", instanceUrl);
 
@@ -67,12 +52,26 @@ public class RequestUtils {
 
         final HttpGet httpGet = new HttpGet(requestURI);
         httpGet.addHeader("Accept", "application/json");
-        httpGet.addHeader("Authorization", "Bearer " + accessToken);
+
+        HttpClientUtils.authorizeRequest(httpGet, oauth);
 
         return httpGet;
     }
 
-    public static final String sendRequest(final HttpUriRequest request) {
+    public static void authorizeRequest(final HttpRequestBase request,
+                                        final JsonObject oauth) {
+
+        logger.info("Adding Authorization header to request");
+
+        final String accessToken = getRequiredConfigurationParameter(
+                oauth, Constants.CONFIGURATION_ACCESS_TOKEN);
+
+        request.setHeader("Authorization", "Bearer " + accessToken);
+
+    }
+
+
+    public static final String sendRequest(final HttpRequestBase request) throws AuthorizationException {
 
         final CloseableHttpClient httpClient = HttpClients.custom()
                 .setSSLSocketFactory(createSSLConnectionSocketFactory())
@@ -85,7 +84,8 @@ public class RequestUtils {
             final int statusCode = statusLine.getStatusCode();
 
             if (statusCode == 401) {
-                throw new RuntimeException("Refresh token");
+                logger.info("Received {} response", statusCode);
+                throw new AuthorizationException();
             }
 
             if (responseEntity == null) {
@@ -108,9 +108,54 @@ public class RequestUtils {
             try {
                 httpClient.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Failed to close HttpClient", e);
             }
         }
+    }
+
+
+
+    public static final JsonObject refreshTokens(final JsonObject configuration) {
+
+        logger.info("About to refresh tokens");
+
+        final JsonObject oauth = configuration.get(Constants.CONFIGURATION_OAUTH).getAsJsonObject();
+
+        if (oauth == null) {
+            throw new RuntimeException("Please authenticate with Salesforce");
+        }
+
+        final String refreshToken = getRequiredConfigurationParameter(
+                oauth, Constants.CONFIGURATION_REFRESH_TOKEN);
+
+        final List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("grant_type", "refresh_token"));
+        params.add(new BasicNameValuePair("client_id", System.getenv("SALESFORCE_KEY")));
+        params.add(new BasicNameValuePair("client_secret", System.getenv("SALESFORCE_SECRET")));
+        params.add(new BasicNameValuePair("refresh_token", refreshToken));
+        params.add(new BasicNameValuePair("format", "json"));
+
+        final String url = "https://login.salesforce.com/services/oauth2/token";
+
+        final HttpPost httpPost = new HttpPost(url);
+        try {
+            httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+
+        logger.info(httpPost.toString());
+
+        final String content;
+        try {
+            content = HttpClientUtils.sendRequest(httpPost);
+        } catch (AuthorizationException e) {
+            throw new RuntimeException(e);
+        }
+
+        logger.info("Refresh token response: {}", content);
+
+        return new JsonParser().parse(content).getAsJsonObject();
     }
 
     /**

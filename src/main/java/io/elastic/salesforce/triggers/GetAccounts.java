@@ -1,15 +1,14 @@
 package io.elastic.salesforce.triggers;
 
 import com.google.gson.JsonObject;
-import io.elastic.api.Component;
 import io.elastic.api.EventEmitter;
 import io.elastic.api.ExecutionParameters;
 import io.elastic.api.Message;
-import io.elastic.salesforce.RequestUtils;
+import io.elastic.salesforce.AbstractSalesforceComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GetAccounts extends Component {
+public class GetAccounts extends AbstractSalesforceComponent {
 
     public static final Logger logger = LoggerFactory.getLogger(GetAccounts.class);
 
@@ -33,7 +32,7 @@ public class GetAccounts extends Component {
 
         logger.info("About to query objects: {}", query);
 
-        final JsonObject body = RequestUtils.queryObjects(configuration, query);
+        final JsonObject body = queryObjects(configuration, query);
 
         final Message response
                 = new Message.Builder().body(body).build();
