@@ -44,16 +44,7 @@
             "main":"io.elastic.salesforce.triggers.GetAccounts",
             "type":"polling",
             "metadata": {
-              "out": {
-                "type": "object",
-                "properties": {
-                  "greeting": {
-                    "type": "string",
-                    "required": true,
-                    "title": "Greeting"
-                  }
-                }
-              }
+                "out": "./src/main/schemas/getAccounts.out.json"
             }
         }
     }
