@@ -123,6 +123,7 @@ public class HttpClientUtils {
             final HttpEntity responseEntity = response.getEntity();
             final StatusLine statusLine = response.getStatusLine();
             final int statusCode = statusLine.getStatusCode();
+            logger.info("Got {} response", statusCode);
 
             if (statusCode == 401) {
                 logger.info("Received {} response", statusCode);
