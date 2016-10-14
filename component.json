@@ -47,5 +47,16 @@
                 "out": "./src/main/schemas/getAccounts.out.json"
             }
         }
+    },
+    "actions":{
+        "createAccount":{
+            "title":"Create Account",
+            "main":"io.elastic.salesforce.actions.CreateAccount",
+            "type":"polling",
+            "metadata": {
+                "in": "./src/main/schemas/createAccount.in.json",
+                "out": "./src/main/schemas/createAccount.out.json"
+            }
+        }
     }
 }
