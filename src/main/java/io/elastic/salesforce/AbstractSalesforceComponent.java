@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import io.elastic.api.Component;
 import io.elastic.api.EventEmitter;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,20 @@ public abstract class AbstractSalesforceComponent extends Component {
         return object;
     }
 
+    protected final JsonObject postObject(final JsonObject configuration,
+                                          final String objectType,
+                                          final JsonObject body) {
+
+        final HttpPost httpPost = HttpClientUtils.createPostObjectRequest(
+                configuration, objectType, body);
+
+        final String content = sendRequestAndRefreshTokensIfRequired(httpPost, configuration);
+
+        final JsonObject object = new JsonParser().parse(content).getAsJsonObject();
+
+        return object;
+    }
+
     private String sendRequestAndRefreshTokensIfRequired(
             final HttpRequestBase request, final JsonObject configuration) {
 
@@ -46,13 +61,13 @@ public abstract class AbstractSalesforceComponent extends Component {
             return HttpClientUtils.sendRequest(request);
         } catch (AuthorizationException e) {
 
-            final JsonObject newOauth = HttpClientUtils.refreshTokens(configuration);
+            HttpClientUtils.refreshTokens(configuration);
 
             logger.info("Emitting updated keys");
 
-            getEventEmitter().emitUpdateKeys(newOauth);
+            getEventEmitter().emitUpdateKeys(configuration);
 
-            HttpClientUtils.authorizeRequest(request, newOauth);
+            HttpClientUtils.authorizeRequest(request, configuration);
 
             logger.info("Sending the original request width refreshed access_token");
             try {
