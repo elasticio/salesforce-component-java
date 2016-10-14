@@ -136,7 +136,7 @@ public class HttpClientUtils {
 
             final String result = EntityUtils.toString(responseEntity);
 
-            if (statusCode != 200 || statusCode != 201) {
+            if (statusCode > 202) {
                 throw new RuntimeException(result);
             }
 
