@@ -15,16 +15,6 @@
     },
     "credentials" : {
         "fields":{
-            "prodEnv" : {
-                "label":"Environment",
-                "viewClass":"SelectView",
-                "required":true,
-                "model":{
-                    "test":"Sandbox",
-                    "login":"Production"
-                },
-                "prompt":"Select environment"
-            },
             "oauth":{
                 "label":"Authentication",
                 "viewClass":"OAuthFieldView",
@@ -34,11 +24,26 @@
         "oauth2":{
             "client_id":"{{SALESFORCE_KEY}}",
             "client_secret":"{{SALESFORCE_SECRET}}",
-            "auth_uri":"https://{{prodEnv}}.salesforce.com/services/oauth2/authorize",
-            "token_uri":"https://{{prodEnv}}.salesforce.com/services/oauth2/token"
+            "auth_uri":"https://login.salesforce.com/services/oauth2/authorize",
+            "token_uri":"https://login.salesforce.com/services/oauth2/token"
         }
     },
     "triggers":{
+        "queryObjects": {
+            "title": "SOQL Query",
+            "main":"io.elastic.salesforce.triggers.QueryObjects",
+            "type":"polling",
+            "metadata": {
+                "out": {}
+            },
+            "fields": {
+                "query": {
+                    "label": "SOQL Query",
+                    "required": true,
+                    "viewClass": "TextAreaView"
+                }
+            }
+        },
         "newAccount":{
             "title":"New Account",
             "main":"io.elastic.salesforce.triggers.GetAccounts",
