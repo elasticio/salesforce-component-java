@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compile "io.elastic:sailor-jvm:1.1.3-SNAPSHOT"
+    compile "io.elastic:sailor-jvm:1.1.3"
 }
 
 uploadArchives {
