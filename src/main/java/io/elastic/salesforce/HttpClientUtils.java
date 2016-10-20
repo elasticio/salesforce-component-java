@@ -4,8 +4,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -22,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +121,8 @@ public class HttpClientUtils {
                 .setSSLSocketFactory(createSSLConnectionSocketFactory())
                 .build();
 
+        HttpClientUtils.addProxyToRequest(request);
+
         try {
             final CloseableHttpResponse response = httpClient.execute(request);
             final HttpEntity responseEntity = response.getEntity();
@@ -152,6 +157,24 @@ public class HttpClientUtils {
             } catch (IOException e) {
                 logger.error("Failed to close HttpClient", e);
             }
+        }
+    }
+
+    private static void addProxyToRequest(final HttpRequestBase request) {
+        final String httpProxy = System.getenv("HTTP_PROXY");
+
+        if (httpProxy != null) {
+            logger.info("Setting HTTP client proxy {}", httpProxy);
+
+            final URI uri = URI.create(httpProxy);
+
+            final HttpHost proxy = new HttpHost(uri.getHost(), uri.getPort(), uri.getScheme());
+
+            final RequestConfig config = RequestConfig.custom()
+                    .setProxy(proxy)
+                    .build();
+
+            request.setConfig(config);
         }
     }
 
