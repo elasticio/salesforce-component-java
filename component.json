@@ -7,7 +7,9 @@
         "SubmitRequest":{
             "title":"Submit Request",
             "main":"io.elastic.salesforce.actions.Submit",
-            "dynamicMetadata": "io.elastic.salesforce.actions.MetaProvider"
+            "metadata": {
+                "in": "./src/main/schemas/submit.json"
+            }
         }
     }
 }

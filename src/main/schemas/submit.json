@@ -1,0 +1,228 @@
+{
+  "type": "object",
+  "properties": {
+    "header": {
+      "type": "object",
+      "properties": {
+        "image-settings": {
+          "type": "object",
+          "properties": {
+            "external-location": {
+              "type": "object",
+              "properties": {
+                "http-url": {
+                  "type": "string",
+                  "required": true
+                },
+                "https-url": {
+                  "type": "string",
+                  "required": true
+                }
+              },
+              "required": true
+            },
+            "view-types": {
+              "type": "object",
+              "properties": {
+                "view-type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": true
+            },
+            "alt-pattern": {
+              "type": "string",
+              "required": true
+            },
+            "title-pattern": {
+              "type": "string",
+              "required": true
+            }
+          },
+          "required": true
+        }
+      },
+      "required": true
+    },
+    "product": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ean": {
+            "type": "number"
+          },
+          "upc": {
+            "type": "number"
+          },
+          "min-order-quantity": {
+            "type": "integer"
+          },
+          "step-quantity": {
+            "type": "integer"
+          },
+          "display-name": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string"
+                },
+                "lang": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "short-description": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "lang": {
+                "type": "string"
+              }
+            }
+          },
+          "long-description": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "lang": {
+                "type": "string"
+              }
+            }
+          },
+          "online-flag": {
+            "type": "string",
+            "required": true
+          },
+          "searchable-flag": {
+            "type": "string",
+            "required": true
+          },
+          "images": {
+            "type": "object",
+            "properties": {
+              "image-group": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "image": {
+                      "type": "array",
+                      "items": {
+                        "type": "any"
+                      }
+                    },
+                    "view-type": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "tax-class-id": {
+            "type": "string",
+            "required": true
+          },
+          "search-placement": {
+            "type": "integer"
+          },
+          "sitemap-included-flag": {
+            "type": "string",
+            "required": true
+          },
+          "page-attributes": {
+            "type": "object",
+            "properties": {
+              "page-title": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "lang": {
+                    "type": "string"
+                  }
+                }
+              },
+              "page-description": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "lang": {
+                    "type": "string"
+                  }
+                }
+              },
+              "page-keywords": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "lang": {
+                    "type": "string"
+                  }
+                }
+              },
+              "page-url": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "lang": {
+                    "type": "string"
+                  }
+                },
+                "required": true
+              }
+            }
+          },
+          "custom-attributes": {
+            "type": "object",
+            "properties": {
+              "custom-attribute": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "string"
+                    },
+                    "lang": {
+                      "type": "string"
+                    },
+                    "attribute-id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "product-id": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "catalog-id": {
+      "type": "string"
+    }
+  }
+}
