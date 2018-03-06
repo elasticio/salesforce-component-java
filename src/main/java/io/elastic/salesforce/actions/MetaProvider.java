@@ -18,8 +18,7 @@ public class MetaProvider implements DynamicMetadataProvider {
     @Override
     public javax.json.JsonObject getMetaModel(javax.json.JsonObject configuration) {
         try {
-            String category = configuration.getJsonString("category").getString();
-            return deserialize(getMeta(category));
+            return deserialize(getMeta());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,7 +33,7 @@ public class MetaProvider implements DynamicMetadataProvider {
         }
     }
 
-    public byte[] getMeta(String category) {
+    public byte[] getMeta() {
         JsonObject result = new JsonObject();
         JsonParser parser = new JsonParser();
         JsonElement in;
