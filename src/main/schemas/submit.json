@@ -119,7 +119,12 @@
                     "image": {
                       "type": "array",
                       "items": {
-                        "type": "any"
+                        "type": "object",
+                        "properties": {
+                          "path": {
+                            "type": "string"
+                          }
+                        }
                       }
                     },
                     "view-type": {

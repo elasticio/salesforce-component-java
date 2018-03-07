@@ -122,11 +122,11 @@ import javax.xml.bind.annotation.XmlValue;
  *                                     &lt;sequence>
  *                                       &lt;element name="image" maxOccurs="unbounded" minOccurs="0">
  *                                         &lt;complexType>
- *                                           &lt;simpleContent>
- *                                             &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
+ *                                           &lt;complexContent>
+ *                                             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *                                               &lt;attribute name="path" type="{http://www.w3.org/2001/XMLSchema}string" />
- *                                             &lt;/extension>
- *                                           &lt;/simpleContent>
+ *                                             &lt;/restriction>
+ *                                           &lt;/complexContent>
  *                                         &lt;/complexType>
  *                                       &lt;/element>
  *                                     &lt;/sequence>
@@ -765,11 +765,11 @@ public class Catalog {
      *                           &lt;sequence>
      *                             &lt;element name="image" maxOccurs="unbounded" minOccurs="0">
      *                               &lt;complexType>
-     *                                 &lt;simpleContent>
-     *                                   &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
+     *                                 &lt;complexContent>
+     *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
      *                                     &lt;attribute name="path" type="{http://www.w3.org/2001/XMLSchema}string" />
-     *                                   &lt;/extension>
-     *                                 &lt;/simpleContent>
+     *                                   &lt;/restriction>
+     *                                 &lt;/complexContent>
      *                               &lt;/complexType>
      *                             &lt;/element>
      *                           &lt;/sequence>
@@ -1535,11 +1535,11 @@ public class Catalog {
          *                 &lt;sequence>
          *                   &lt;element name="image" maxOccurs="unbounded" minOccurs="0">
          *                     &lt;complexType>
-         *                       &lt;simpleContent>
-         *                         &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
+         *                       &lt;complexContent>
+         *                         &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
          *                           &lt;attribute name="path" type="{http://www.w3.org/2001/XMLSchema}string" />
-         *                         &lt;/extension>
-         *                       &lt;/simpleContent>
+         *                         &lt;/restriction>
+         *                       &lt;/complexContent>
          *                     &lt;/complexType>
          *                   &lt;/element>
          *                 &lt;/sequence>
@@ -1607,11 +1607,11 @@ public class Catalog {
              *       &lt;sequence>
              *         &lt;element name="image" maxOccurs="unbounded" minOccurs="0">
              *           &lt;complexType>
-             *             &lt;simpleContent>
-             *               &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
+             *             &lt;complexContent>
+             *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
              *                 &lt;attribute name="path" type="{http://www.w3.org/2001/XMLSchema}string" />
-             *               &lt;/extension>
-             *             &lt;/simpleContent>
+             *               &lt;/restriction>
+             *             &lt;/complexContent>
              *           &lt;/complexType>
              *         &lt;/element>
              *       &lt;/sequence>
@@ -1631,7 +1631,7 @@ public class Catalog {
 
                 @XmlElementRef(name = "image", namespace = "http://www.demandware.com/xml/impex/catalog/2006-10-31", type = JAXBElement.class, required = false)
                 @XmlMixed
-                protected List<Serializable> content;
+                protected List<Image> content;
                 @XmlAttribute(name = "view-type")
                 protected String viewType;
 
@@ -1653,14 +1653,14 @@ public class Catalog {
                  * 
                  * <p>
                  * Objects of the following type(s) are allowed in the list
-                 * {@link JAXBElement }{@code <}{@link Catalog.Product.Images.ImageGroup.Image }{@code >}
                  * {@link String }
+                 * {@link JAXBElement }{@code <}{@link Catalog.Product.Images.ImageGroup.Image }{@code >}
                  * 
                  * 
                  */
-                public List<Serializable> getContent() {
+                public List<Image> getContent() {
                     if (content == null) {
-                        content = new ArrayList<Serializable>();
+                        content = new ArrayList<Image>();
                     }
                     return this.content;
                 }
@@ -1697,50 +1697,23 @@ public class Catalog {
                  * 
                  * <pre>
                  * &lt;complexType>
-                 *   &lt;simpleContent>
-                 *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
+                 *   &lt;complexContent>
+                 *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
                  *       &lt;attribute name="path" type="{http://www.w3.org/2001/XMLSchema}string" />
-                 *     &lt;/extension>
-                 *   &lt;/simpleContent>
+                 *     &lt;/restriction>
+                 *   &lt;/complexContent>
                  * &lt;/complexType>
                  * </pre>
                  * 
                  * 
                  */
+                @XmlRootElement
                 @XmlAccessorType(XmlAccessType.FIELD)
-                @XmlType(name = "", propOrder = {
-                    "value"
-                })
+                @XmlType(name = "")
                 public static class Image {
 
-                    @XmlValue
-                    protected String value;
                     @XmlAttribute(name = "path")
                     protected String path;
-
-                    /**
-                     * Gets the value of the value property.
-                     * 
-                     * @return
-                     *     possible object is
-                     *     {@link String }
-                     *     
-                     */
-                    public String getValue() {
-                        return value;
-                    }
-
-                    /**
-                     * Sets the value of the value property.
-                     * 
-                     * @param value
-                     *     allowed object is
-                     *     {@link String }
-                     *     
-                     */
-                    public void setValue(String value) {
-                        this.value = value;
-                    }
 
                     /**
                      * Gets the value of the path property.

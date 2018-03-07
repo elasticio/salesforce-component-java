@@ -7,6 +7,12 @@
         "SubmitRequest":{
             "title":"Submit Request",
             "main":"io.elastic.salesforce.actions.Submit",
+            "fields": {
+                "filename": {
+                    "viewClass": "TextFieldView",
+                    "label": "filename"
+                }
+            },
             "metadata": {
                 "in": "./src/main/schemas/submit.json"
             }

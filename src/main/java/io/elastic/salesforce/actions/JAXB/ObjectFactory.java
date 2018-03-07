@@ -163,7 +163,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Catalog.Product.Images.ImageGroup.Image }
-     * 
+     *
      */
     public Catalog.Product.Images.ImageGroup.Image createCatalogProductImagesImageGroupImage() {
         return new Catalog.Product.Images.ImageGroup.Image();
@@ -187,7 +187,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Catalog.Product.Images.ImageGroup.Image }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://www.demandware.com/xml/impex/catalog/2006-10-31", name = "image", scope = Catalog.Product.Images.ImageGroup.class)
     public JAXBElement<Catalog.Product.Images.ImageGroup.Image> createCatalogProductImagesImageGroupImage(Catalog.Product.Images.ImageGroup.Image value) {
