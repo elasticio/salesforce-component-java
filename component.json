@@ -3,6 +3,41 @@
     "description" : "Customer relationship management (CRM) software & cloud computing from the leader in CRM solutions for businesses large & small.",
     "docsUrl": "https://github.com/elasticio/salesforce-java",
     "url" : "http://www.salesforce.com/",
+    "credentials": {
+        "fields": {
+            "hostname": {
+                "viewClass": "TextFieldView",
+                "label": "hostname",
+                "required": true,
+                "placeholder": "Hostname"
+            },
+            "port": {
+                "viewClass": "port",
+                "label": "port",
+                "required": true,
+                "placeholder": "Port"
+            },
+            "username": {
+                "viewClass": "TextFieldView",
+                "label": "username",
+                "required": true,
+                "placeholder": "username"
+            },
+            "password": {
+                "viewClass": "TextFieldView",
+                "label": "password",
+                "required": true,
+                "placeholder": "password"
+            },
+            "destDir": {
+                "viewClass": "TextFieldView",
+                "label": "destDir",
+                "required": true,
+                "placeholder": "Destination Directory"
+            }
+        },
+        "verifier": "io.elastic.salesforce.actions.Verifier"
+    },
     "actions":{
         "SubmitRequest":{
             "title":"Submit Request",

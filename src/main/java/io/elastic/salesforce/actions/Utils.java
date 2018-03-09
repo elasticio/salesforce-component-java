@@ -7,6 +7,7 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 import io.elastic.salesforce.actions.JAXB.Catalog;
 
+import javax.json.JsonObject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -46,6 +47,20 @@ public class Utils {
         } catch (JAXBException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String getVal(JsonObject jsonObject, String key) {
+        return jsonObject.getString(key);
+    }
+
+    public static SFTPUtils getSFTPClient(JsonObject conf) {
+        SFTPUtils sftpUtils = new SFTPUtils();
+        sftpUtils.setHostName(getVal(conf, "hostname"));
+        sftpUtils.setHostPort(getVal(conf, "port"));
+        sftpUtils.setUserName(getVal(conf, "username"));
+        sftpUtils.setPassWord(getVal(conf, "password"));
+        sftpUtils.setDestinationDir(getVal(conf, "destDir"));
+        return sftpUtils;
     }
 
 }
