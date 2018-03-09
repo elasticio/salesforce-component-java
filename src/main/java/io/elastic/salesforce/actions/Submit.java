@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import javax.json.Json;
 import javax.json.JsonObject;
 import java.io.*;
+import java.text.SimpleDateFormat;
 
 import static io.elastic.salesforce.actions.Utils.getSFTPClient;
 import static io.elastic.salesforce.actions.Utils.getVal;
@@ -68,9 +69,17 @@ public class Submit implements Module {
         String result;
         InputStream is = new ByteArrayInputStream(xml.getBytes());
         SFTPUtils sftpUtils = getSFTPClient(conf);
-        result = sftpUtils.uploadFileToFTP(getVal(conf, "filename"), is, true);
+        result = sftpUtils.uploadFileToFTP(getFilename(), is, true);
 
         return result;
+    }
+
+    private static String getFilename() {
+        StringBuilder result = new StringBuilder();
+        result.append("LT_DemandwareProduct_(");
+        result.append(new SimpleDateFormat("yyyy-MMM-dd.HH.mm.ss").format(new java.util.Date()));
+        result.append(")");
+        return result.toString();
     }
 
 }
