@@ -12,7 +12,7 @@
                 "placeholder": "Hostname"
             },
             "port": {
-                "viewClass": "port",
+                "viewClass": "TextFieldView",
                 "label": "port",
                 "required": true,
                 "placeholder": "Port"
