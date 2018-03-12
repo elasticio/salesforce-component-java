@@ -78,7 +78,7 @@ public class Submit implements Module {
         StringBuilder result = new StringBuilder();
         result.append("LT_DemandwareProduct_(");
         result.append(new SimpleDateFormat("yyyy-MMM-dd.HH.mm.ss").format(new java.util.Date()));
-        result.append(")");
+        result.append(").xml");
         return result.toString();
     }
 
