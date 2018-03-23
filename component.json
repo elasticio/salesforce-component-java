@@ -39,11 +39,18 @@
         "verifier": "io.elastic.salesforce.actions.Verifier"
     },
     "actions":{
-        "SubmitRequest":{
-            "title":"Submit Request",
-            "main":"io.elastic.salesforce.actions.Submit",
+        "SubmitProduct":{
+            "title":"Submit Product Request",
+            "main":"io.elastic.salesforce.actions.SubmitProduct",
             "metadata": {
-                "in": "./src/main/schemas/submit.json"
+                "in": "./src/main/schemas/submitProduct.json"
+            }
+        },
+        "SubmitCategory":{
+            "title":"Submit Category Request",
+            "main":"io.elastic.salesforce.actions.SubmitProduct",
+            "metadata": {
+                "in": "./src/main/schemas/submitProduct.json"
             }
         }
     }

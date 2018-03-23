@@ -8,20 +8,21 @@ import io.elastic.api.EventEmitter;
 import io.elastic.api.ExecutionParameters;
 import io.elastic.api.Message;
 import io.elastic.api.Module;
-import io.elastic.salesforce.actions.JAXB.Catalog;
+import io.elastic.salesforce.actions.JAXB.product.Catalog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 
 import static io.elastic.salesforce.actions.Utils.getSFTPClient;
-import static io.elastic.salesforce.actions.Utils.getVal;
 
-public class Submit implements Module {
-    private static final Logger logger = LoggerFactory.getLogger(Submit.class);
+public class SubmitCategory implements Module {
+    private static final Logger logger = LoggerFactory.getLogger(SubmitCategory.class);
 
     @Override
     public void execute(ExecutionParameters parameters) {
@@ -60,7 +61,7 @@ public class Submit implements Module {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JaxbAnnotationModule());
 
-        catalog = (Catalog) mapper.readValue(body.toString(), Class.forName("io.elastic.salesforce.actions.JAXB.Catalog"));
+        catalog = (Catalog) mapper.readValue(body.toString(), Class.forName("io.elastic.salesforce.actions.JAXB.category.Catalog"));
 
         return Utils.marshal(catalog);
     }

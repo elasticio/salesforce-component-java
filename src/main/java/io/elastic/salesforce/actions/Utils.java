@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
-import io.elastic.salesforce.actions.JAXB.Catalog;
+import io.elastic.salesforce.actions.JAXB.product.Catalog;
 
 import javax.json.JsonObject;
 import javax.xml.bind.JAXBContext;
