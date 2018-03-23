@@ -61,7 +61,7 @@ public class SubmitProduct implements Module {
 
         catalog = (Catalog) mapper.readValue(body.toString(), Class.forName("io.elastic.salesforce.actions.JAXB.product.Catalog"));
 
-        return Utils.marshal(catalog);
+        return Utils.marshal(catalog, Catalog.class);
     }
 
     public static String uploadToSFTP(String xml, JsonObject conf) throws SftpException, JSchException, IOException {

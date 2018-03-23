@@ -26,8 +26,8 @@ public class Utils {
         return mapper;
     }
 
-    public static String marshal(final Object input) {
-        final Marshaller marshaller = createMarshaller();
+    public static String marshal(final Object input, Class cls) {
+        final Marshaller marshaller = createMarshaller(cls);
 
         final StringWriter writer = new StringWriter();
 
@@ -39,9 +39,9 @@ public class Utils {
 
         return writer.toString();
     }
-    private static Marshaller createMarshaller() {
+    private static Marshaller createMarshaller(Class cls) {
         try {
-            final JAXBContext context = JAXBContext.newInstance(Catalog.class);
+            final JAXBContext context = JAXBContext.newInstance(cls);
 
             return context.createMarshaller();
         } catch (JAXBException e) {
