@@ -8,7 +8,7 @@ import io.elastic.api.EventEmitter;
 import io.elastic.api.ExecutionParameters;
 import io.elastic.api.Message;
 import io.elastic.api.Module;
-import io.elastic.salesforce.actions.JAXB.product.Catalog;
+import io.elastic.salesforce.actions.JAXB.category.Catalog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
