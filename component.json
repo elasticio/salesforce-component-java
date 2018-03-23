@@ -48,7 +48,7 @@
         },
         "SubmitCategory":{
             "title":"Submit Category Request",
-            "main":"io.elastic.salesforce.actions.SubmitProduct",
+            "main":"io.elastic.salesforce.actions.SubmitCategory",
             "metadata": {
                 "in": "./src/main/schemas/submitProduct.json"
             }

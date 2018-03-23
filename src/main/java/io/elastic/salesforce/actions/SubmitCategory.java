@@ -77,7 +77,7 @@ public class SubmitCategory implements Module {
 
     private static String getFilename() {
         StringBuilder result = new StringBuilder();
-        result.append("LT_DemandwareProduct_(");
+        result.append("LT_DemandwareAssortment_(");
         result.append(new SimpleDateFormat("yyyy-MMM-dd.HH.mm.ss").format(new java.util.Date()));
         result.append(").xml");
         return result.toString();
