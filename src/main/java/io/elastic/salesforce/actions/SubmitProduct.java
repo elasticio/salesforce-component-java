@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.xml.stream.XMLStreamException;
 import java.io.*;
 import java.text.SimpleDateFormat;
 
@@ -48,18 +49,20 @@ public class SubmitProduct implements Module {
             e.printStackTrace();
         } catch (JSchException e) {
             e.printStackTrace();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
         }
 
     }
 
-    public static String getXML(JsonObject body) throws IOException, ClassNotFoundException {
+    public static String getXML(JsonObject body) throws IOException, ClassNotFoundException, XMLStreamException {
 
         Catalog catalog;
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JaxbAnnotationModule());
 
-        catalog = (Catalog) mapper.readValue(body.toString(), Class.forName("io.elastic.salesforce.actions.JAXB.product.Catalog"));
+        catalog = mapper.readValue(body.toString(), Catalog.class);
 
         return Utils.marshal(catalog, Catalog.class);
     }

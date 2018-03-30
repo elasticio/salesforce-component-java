@@ -11,6 +11,7 @@ import javax.json.JsonObject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.stream.XMLStreamException;
 import java.io.StringWriter;
 
 public class Utils {
@@ -26,13 +27,13 @@ public class Utils {
         return mapper;
     }
 
-    public static String marshal(final Object input, Class cls) {
+    public static String marshal(final Object input, Class cls) throws XMLStreamException {
         final Marshaller marshaller = createMarshaller(cls);
 
         final StringWriter writer = new StringWriter();
 
         try {
-            marshaller.marshal(input, writer);
+            marshaller.marshal(input, NoNamesWriter.filter(writer));
         } catch (JAXBException e) {
             throw new RuntimeException(e);
         }
